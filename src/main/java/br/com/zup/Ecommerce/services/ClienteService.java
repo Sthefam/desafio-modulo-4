@@ -24,4 +24,13 @@ public class ClienteService {
         clientes.add(clienteDto);
     }
 
+    public ClienteDTO pesquisarCliente(String cpf){
+        for(ClienteDTO cliente : clientes){
+            if(cliente.getCpf().equals(cpf)){
+                return cliente;
+            }
+        }
+        throw new RuntimeException("Cliente não encontrado!");
+    }
+
 }
