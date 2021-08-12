@@ -1,5 +1,6 @@
 package br.com.zup.Ecommerce.services;
 
+import br.com.zup.Ecommerce.dtos.CompraDTO;
 import br.com.zup.Ecommerce.dtos.ProdutoDTO;
 import org.springframework.stereotype.Service;
 
@@ -19,9 +20,25 @@ public class ProdutoService {
         }
     }
 
+    public ProdutoDTO verificaEstoque(String nome){
+        StringBuilder mensagem = new StringBuilder();
+        for(ProdutoDTO produto : produtos){
+            if(produto.getQuantidade() != 0 || produto.getNome().equals(nome)){
+                return produto;
+            } else {
+                mensagem.append("'").append(produto).append("'");
+            }
+        }
+        throw new RuntimeException(mensagem.toString());
+    }
+
     public void cadastrarProduto(ProdutoDTO produtoDto){
         verificaDuplicidade(produtoDto);
         produtos.add(produtoDto);
+    }
+
+    public List<ProdutoDTO> getProdutos(){
+        return this.produtos;
     }
 
 }
