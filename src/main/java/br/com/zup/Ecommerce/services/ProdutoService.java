@@ -1,9 +1,7 @@
 package br.com.zup.Ecommerce.services;
 
-import br.com.zup.Ecommerce.dtos.CompraDTO;
 import br.com.zup.Ecommerce.dtos.ProdutoDTO;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,13 +21,15 @@ public class ProdutoService {
     public ProdutoDTO verificaEstoque(String nome){
         StringBuilder mensagem = new StringBuilder();
         for(ProdutoDTO produto : produtos){
-            if(produto.getQuantidade() != 0 || produto.getNome().equals(nome)){
+            if(produto.getQuantidade() != 0){
                 return produto;
-            } else {
-                mensagem.append("'").append(produto).append("'");
             }
+            mensagem.append("'").append(produto.getNome()).append("'");
         }
-        throw new RuntimeException(mensagem.toString());
+        if(mensagem.toString().equals("")){
+            throw new RuntimeException("Nenhum produto encontrado!");
+        }
+        throw new RuntimeException("Produto(s) fora de estoque: "+mensagem);
     }
 
     public void cadastrarProduto(ProdutoDTO produtoDto){
