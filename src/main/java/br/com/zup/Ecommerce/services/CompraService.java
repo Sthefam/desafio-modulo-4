@@ -26,4 +26,8 @@ public class CompraService {
         compras.add(compraDTO);
     }
 
+    public List<CompraDTO> getCompras(){
+        return this.compras;
+    }
+
 }
