@@ -31,4 +31,15 @@ public class CompraService {
         return this.compras;
     }
 
+    public List<CompraDTO> exibirComprasPorCpf(String cpf){
+        ClienteDTO cliente =  clienteService.pesquisarCliente(cpf);
+        List<CompraDTO> comprasPorCpf = new ArrayList<>();
+        for(CompraDTO compra : compras){
+            if(compra.getCliente().getCpf().equals(cliente.getCpf())){
+                comprasPorCpf.add(compra);
+            }
+        }
+        return comprasPorCpf;
+    }
+
 }

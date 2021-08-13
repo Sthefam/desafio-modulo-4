@@ -23,7 +23,7 @@ public class CompraController {
     }
 
     @GetMapping("/compras/{cpf}")
-    public CompraDTO exibirComprasPorCpf(@PathVariable String cpf){
+    public List<CompraDTO> exibirComprasPorCpf(@PathVariable String cpf){
         return compraService.exibirComprasPorCpf(cpf);
     }
 
