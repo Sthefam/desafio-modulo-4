@@ -47,7 +47,7 @@ public class ProdutoService {
         ArrayList<String> produtosForaDeEstoque = new ArrayList<>();
         for(ProdutoDTO produto : produtos){
             if(produto.getQuantidade() < produtoDto.getQuantidade()){
-                produtosForaDeEstoque.add(produto.getNome());
+                produtosForaDeEstoque.add(produtoDto.getNome());
                 produtosForaDeEstoque = removeDuplicates(produtosForaDeEstoque);
             }
         }
