@@ -3,10 +3,7 @@ package br.com.zup.Ecommerce.controllers;
 import br.com.zup.Ecommerce.dtos.CompraDTO;
 import br.com.zup.Ecommerce.services.CompraService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,6 +20,11 @@ public class CompraController {
     @GetMapping("/compras")
     public List<CompraDTO> exibirCompras(){
         return compraService.getCompras();
+    }
+
+    @GetMapping("/compras/{cpf}")
+    public CompraDTO exibirComprasPorCpf(@PathVariable String cpf){
+        return compraService.exibirComprasPorCpf(cpf);
     }
 
 }
