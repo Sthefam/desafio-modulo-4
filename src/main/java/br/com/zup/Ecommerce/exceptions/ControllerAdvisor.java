@@ -25,7 +25,7 @@ public class ControllerAdvisor {
 
     @ExceptionHandler(CapturarErroException.class)
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
-    public MensagemDeErro manipularPetNaoEncontrado(CapturarErroException exception){
+    public MensagemDeErro manipularCapturarErroException(CapturarErroException exception){
         List<Erro> erros = Arrays.asList(new Erro(exception.getMessage()));
 
         return new MensagemDeErro(422,erros);
