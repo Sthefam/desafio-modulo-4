@@ -31,12 +31,12 @@ public class CompraService {
         return this.compras;
     }
 
-    public List<CompraDTO> exibirComprasPorCpf(String cpf){
+    public List<List<ProdutoDTO>> exibirComprasPorCpf(String cpf){
         ClienteDTO cliente =  clienteService.pesquisarCliente(cpf);
-        List<CompraDTO> comprasPorCpf = new ArrayList<>();
+        List<List<ProdutoDTO>> comprasPorCpf = new ArrayList<>();
         for(CompraDTO compra : compras){
             if(compra.getCliente().getCpf().equals(cliente.getCpf())){
-                comprasPorCpf.add(compra);
+                comprasPorCpf.add(compra.getProdutos());
             }
         }
         return comprasPorCpf;

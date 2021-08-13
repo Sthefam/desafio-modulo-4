@@ -1,6 +1,7 @@
 package br.com.zup.Ecommerce.services;
 
 import br.com.zup.Ecommerce.dtos.ClienteDTO;
+import br.com.zup.Ecommerce.exceptions.CapturarErroException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ public class ClienteService {
     public void verificaDuplicidade(ClienteDTO clienteDto){
         for(ClienteDTO cliente : clientes){
             if(cliente.getCpf().equals(clienteDto.getCpf()) || cliente.getEmail().equals(clienteDto.getEmail())){
-                throw new RuntimeException("Cliente já cadastrado!");
+                throw new CapturarErroException("Cliente já cadastrado!");
             }
         }
     }
@@ -30,7 +31,7 @@ public class ClienteService {
                 return cliente;
             }
         }
-        throw new RuntimeException("Cliente não encontrado!");
+        throw new CapturarErroException("Cliente não encontrado!");
     }
 
 }

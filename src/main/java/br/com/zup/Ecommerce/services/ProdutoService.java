@@ -1,6 +1,7 @@
 package br.com.zup.Ecommerce.services;
 
 import br.com.zup.Ecommerce.dtos.ProdutoDTO;
+import br.com.zup.Ecommerce.exceptions.CapturarErroException;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +14,7 @@ public class ProdutoService {
     public void verificaDuplicidade(ProdutoDTO produtoDto){
         for(ProdutoDTO produto : produtos){
            if(produto.getNome().equals(produtoDto.getNome())){
-               throw new RuntimeException("Produto já cadastrado!");
+               throw new CapturarErroException("Produto já cadastrado!");
            }
         }
     }
@@ -22,19 +23,22 @@ public class ProdutoService {
         for(ProdutoDTO produto : produtos){
             if(produto.getNome().equals(produtoDto.getNome())){
                 verificaEstoque(produtoDto);
+                produtoDto.setPreco(produto.getPreco() * produtoDto.getQuantidade());
                 return produtoDto;
             }
         }
-        throw new RuntimeException("Nenhum produto encontrado com o nome '"+produtoDto.getNome()+"'");
+        throw new CapturarErroException("Nenhum produto encontrado com o nome '"+produtoDto.getNome()+"'");
     }
 
     public void verificaEstoque(ProdutoDTO produtoDto){
-        StringBuilder mensagem = new StringBuilder();
+        List<String> produtosForaDeEstoque = new ArrayList<>();
         for(ProdutoDTO produto : produtos){
             if(produto.getQuantidade() < produtoDto.getQuantidade()){
-                mensagem.append("'").append(produtoDto.getNome()).append("'");
-                throw new RuntimeException("Produto(s) fora de estoque: "+mensagem);
+                produtosForaDeEstoque.add(produtoDto.getNome());
             }
+        }
+        if(produtosForaDeEstoque.size() > 0){
+            throw new CapturarErroException("Produto(s) fora de estoque: "+produtosForaDeEstoque);
         }
     }
 

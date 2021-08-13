@@ -1,10 +1,13 @@
 package br.com.zup.Ecommerce.dtos;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public class CompraDTO {
 
+    @NotNull(message = "{validation.objeto.cliente}")
     private ClienteDTO cliente;
+    @NotNull(message = "{validation.lista.produtos}")
     private List<ProdutoDTO> produtos;
 
     public CompraDTO() {
