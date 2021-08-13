@@ -18,18 +18,24 @@ public class ProdutoService {
         }
     }
 
-    public ProdutoDTO verificaEstoque(String nome){
+    public ProdutoDTO validarProduto(ProdutoDTO produtoDto){
+        for(ProdutoDTO produto : produtos){
+            if(produto.getNome().equals(produtoDto.getNome())){
+                verificaEstoque(produtoDto);
+                return produtoDto;
+            }
+        }
+        throw new RuntimeException("Nenhum produto encontrado com o nome '"+produtoDto.getNome()+"'");
+    }
+
+    public void verificaEstoque(ProdutoDTO produtoDto){
         StringBuilder mensagem = new StringBuilder();
         for(ProdutoDTO produto : produtos){
-            if(produto.getQuantidade() != 0){
-                return produto;
+            if(produto.getQuantidade() < produtoDto.getQuantidade()){
+                mensagem.append("'").append(produtoDto.getNome()).append("'");
+                throw new RuntimeException("Produto(s) fora de estoque: "+mensagem);
             }
-            mensagem.append("'").append(produto.getNome()).append("'");
         }
-        if(mensagem.toString().equals("")){
-            throw new RuntimeException("Nenhum produto encontrado!");
-        }
-        throw new RuntimeException("Produto(s) fora de estoque: "+mensagem);
     }
 
     public void cadastrarProduto(ProdutoDTO produtoDto){

@@ -20,8 +20,9 @@ public class CompraService {
     private List<CompraDTO> compras = new ArrayList<>();
 
     public void efetuarCompra(CompraDTO compraDTO){
-        clienteService.pesquisarCliente(compraDTO.getCliente().getCpf());
-        List<ProdutoDTO> produtosVerificados = compraDTO.getProdutos().stream().map(object -> produtoService.verificaEstoque(object.getNome())).collect(Collectors.toList());
+        ClienteDTO cliente = clienteService.pesquisarCliente(compraDTO.getCliente().getCpf());
+        compraDTO.setCliente(cliente);
+        List<ProdutoDTO> produtosVerificados = compraDTO.getProdutos().stream().map(produto -> produtoService.validarProduto(produto)).collect(Collectors.toList());
         compraDTO.setProdutos(produtosVerificados);
         compras.add(compraDTO);
     }
