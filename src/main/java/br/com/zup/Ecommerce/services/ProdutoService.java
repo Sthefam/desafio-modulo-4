@@ -3,8 +3,8 @@ package br.com.zup.Ecommerce.services;
 import br.com.zup.Ecommerce.dtos.ProdutoDTO;
 import br.com.zup.Ecommerce.exceptions.CapturarErroException;
 import org.springframework.stereotype.Service;
-import java.util.ArrayList;
-import java.util.List;
+
+import java.util.*;
 
 @Service
 public class ProdutoService {
@@ -30,11 +30,25 @@ public class ProdutoService {
         throw new CapturarErroException("Nenhum produto encontrado com o nome '"+produtoDto.getNome()+"'");
     }
 
+    public <T> ArrayList<T> removeDuplicates(ArrayList<T> list)
+    {
+        Set<T> set = new LinkedHashSet<>();
+
+        set.addAll(list);
+
+        list.clear();
+
+        list.addAll(set);
+
+        return list;
+    }
+
     public void verificaEstoque(ProdutoDTO produtoDto){
-        List<String> produtosForaDeEstoque = new ArrayList<>();
+        ArrayList<String> produtosForaDeEstoque = new ArrayList<>();
         for(ProdutoDTO produto : produtos){
             if(produto.getQuantidade() < produtoDto.getQuantidade()){
-                produtosForaDeEstoque.add(produtoDto.getNome());
+                produtosForaDeEstoque.add(produto.getNome());
+                produtosForaDeEstoque = removeDuplicates(produtosForaDeEstoque);
             }
         }
         if(produtosForaDeEstoque.size() > 0){
